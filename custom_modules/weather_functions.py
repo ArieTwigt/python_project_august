@@ -33,6 +33,33 @@ def get_weather_by_city(city: str):
                         in zip(weather_temp, weather_description, weather_dt_txt)
                     }
     
+    weather_df = pd.DataFrame.from_dict(weather_dict, 
+                                        orient='index', 
+                                        columns=['temperature', 'description'])
     
+    weather_df_clean = (weather_df
+        .reset_index()
+        .rename(columns={"index": "date"})
+    )
     
-    print("We are here")
+    # Modify the data frame
+    temperature_classifier = lambda temperature: 'hot' if temperature > 20 else 'warm'
+    
+    weather_df_clean['temperatur_class'] = weather_df_clean['temperature'].apply(temperature_classifier)
+    
+    # Export
+    current_files_folders = os.listdir()
+    
+    parent_folder_name = 'weather_data'
+    if parent_folder_name not in current_files_folders:
+        os.mkdir(parent_folder_name)
+    
+    folder_name = f"{parent_folder_name}/{city}"
+    os.makedirs(folder_name, exist_ok=True)
+    
+    filename = f"{folder_name}/weather_{city}.csv"
+    print(f"\n✉️ Writing to {filename}\n")
+    
+    weather_df_clean.to_csv(filename,
+                            sep=";", 
+                            index=False)
