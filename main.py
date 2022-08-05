@@ -1,10 +1,8 @@
-from custom_modules.api_functions import import_cars_by_brand
+from custom_modules.weather_functions import get_weather_by_city
 import sys
 
 
 if __name__ == "__main__":
-    selected_brand = sys.argv[1]
-    print(selected_brand)
-    my_cars = import_cars_by_brand(selected_brand)
-    print(my_cars)
+    selected_city = sys.argv[1]
+    _ = get_weather_by_city(selected_city)
     

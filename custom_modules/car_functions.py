@@ -1,7 +1,7 @@
 import requests
 import pandas as pd
 
-def import_cars_by_brand(brand: str) -> list:
+def import_cars_by_brand(brand: str, selected_color: str='ZWART') -> list:
     '''
     Returns a list of cars by the specified brand
     
@@ -16,7 +16,11 @@ def import_cars_by_brand(brand: str) -> list:
     
     cars_list = response.json()
     
-    cars_df = pd.DataFrame(cars_list)
+    filtered_cars_list = [car
+                          for car in cars_list
+                          if car['eerste_kleur'] == selected_color]
+    
+    cars_df = pd.DataFrame(filtered_cars_list)
     
     cars_df.to_csv(f"cars_{brand}.csv", 
                    sep=";",
@@ -25,4 +29,4 @@ def import_cars_by_brand(brand: str) -> list:
     return cars_df
     
     
-    
+  
