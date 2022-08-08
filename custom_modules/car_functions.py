@@ -1,7 +1,8 @@
 import requests
 import pandas as pd
+import os
 
-def import_cars_by_brand(brand: str, selected_color: str='ZWART') -> list:
+def import_cars_by_brand(brand: str, selected_color: str='ZWART', export_to_csv=False) -> list:
     '''
     Returns a list of cars by the specified brand
     
@@ -23,9 +24,16 @@ def import_cars_by_brand(brand: str, selected_color: str='ZWART') -> list:
     
     cars_df = pd.DataFrame(filtered_cars_list)
     
-    cars_df.to_csv(f"cars_{brand}.csv", 
+    if export_to_csv:
+        folder_name = f"cars_data/{brand}"
+        os.makedirs(folder_name, exist_ok=True)
+        filename = f"{folder_name}/cars_{brand}.csv"
+        print(f"Exporting to file:\n{filename}\n")
+        cars_df.to_csv(filename, 
                    sep=";",
                    index=None)
+    else:
+        print(cars_df)
     
     return cars_df
     
