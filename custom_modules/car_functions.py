@@ -7,6 +7,7 @@ def import_cars_by_brand(brand: str, selected_color: str='ZWART') -> list:
     
     params:
     * brand, a car brand
+    * colour
     '''
     
     endpoint = f"https://opendata.rdw.nl/resource/m9d7-ebf2.json?merk={brand}"
